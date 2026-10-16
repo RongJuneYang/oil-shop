@@ -1,0 +1,21 @@
+
+# Node.js 套件
+node_modules/
+
+# 環境變數與機密設定
+.env
+.env.*
+!.env.example
+
+# 建置產物
+dist/
+
+# 日誌檔
+*.log
+
+# 作業系統產生的檔案
+.DS_Store
+Thumbs.db
+
+backend/.env
+backend/.env.*
