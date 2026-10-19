@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const API_URL = 'http://localhost:3000/api'
+import { API_URL } from './api';
 
 function App() {
   // 商品資料

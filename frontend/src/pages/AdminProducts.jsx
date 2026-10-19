@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { API_URL } from '../api';
+const API = API_URL;
 
 const emptyForm = {
   product_name: '',
@@ -35,7 +36,7 @@ function AdminProducts() {
       return url
     }
 
-    return `http://localhost:3000${url.startsWith('/') ? '' : '/'}${url}`
+    return `${API_URL.replace(/\/api$/, '')}${url.startsWith('/') ? '' : '/'}${url}`
   }
 
   async function loadProducts() {
