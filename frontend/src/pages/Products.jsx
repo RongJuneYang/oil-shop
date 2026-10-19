@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
-const API_URL = 'http://localhost:3000/api'
+import { API_URL } from '../api'
 
 function Products() {
   const navigate = useNavigate()
@@ -54,6 +53,18 @@ function Products() {
     navigate('/')
   }
 
+  // 將相對圖片路徑轉成後端網址
+  function getImageUrl(url) {
+    if (!url) return ''
+
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url
+    }
+
+    const backendUrl = API_URL.replace(/\/api\/?$/, '')
+    return `${backendUrl}${url.startsWith('/') ? '' : '/'}${url}`
+  }
+
   return (
     <main className="min-h-screen bg-[#faf8f3] text-stone-800">
       <header className="border-b border-stone-200 bg-white">
@@ -63,39 +74,23 @@ function Products() {
           </Link>
 
           <nav className="flex flex-wrap items-center gap-4 text-sm">
-            <span>
-              你好，{member?.user_name || '訪客'}
-            </span>
+            <span>你好，{member?.user_name || '訪客'}</span>
 
             {member && !isAdmin && (
-              <Link
-                to="/my-orders"
-                className="text-amber-800 hover:underline"
-              >
+              <Link to="/my-orders" className="text-amber-800 hover:underline">
                 我的訂單
               </Link>
             )}
 
             {isAdmin && (
               <>
-                <Link
-                  to="/admin/products"
-                  className="text-amber-800 hover:underline"
-                >
+                <Link to="/admin/products" className="text-amber-800 hover:underline">
                   商品管理
                 </Link>
-
-                <Link
-                  to="/admin/orders"
-                  className="text-amber-800 hover:underline"
-                >
+                <Link to="/admin/orders" className="text-amber-800 hover:underline">
                   訂單管理
                 </Link>
-
-                <Link
-                  to="/admin/members"
-                  className="text-amber-800 hover:underline"
-                >
+                <Link to="/admin/members" className="text-amber-800 hover:underline">
                   會員管理
                 </Link>
               </>
@@ -109,17 +104,11 @@ function Products() {
             </Link>
 
             {member ? (
-              <button
-                onClick={logout}
-                className="text-amber-800 hover:underline"
-              >
+              <button onClick={logout} className="text-amber-800 hover:underline">
                 登出
               </button>
             ) : (
-              <Link
-                to="/login"
-                className="text-amber-800 hover:underline"
-              >
+              <Link to="/login" className="text-amber-800 hover:underline">
                 登入
               </Link>
             )}
@@ -128,23 +117,16 @@ function Products() {
       </header>
 
       <section className="mx-auto max-w-7xl px-6 py-12">
-        <h1 className="text-3xl font-bold text-amber-900">
-          商品瀏覽
-        </h1>
+        <h1 className="text-3xl font-bold text-amber-900">商品瀏覽</h1>
 
         <p className="mt-3 text-stone-600">
           查看麻油及食用油商品的價格與庫存。
         </p>
 
         {loading ? (
-          <p className="py-10 text-stone-500">
-            正在載入商品……
-          </p>
+          <p className="py-10 text-stone-500">正在載入商品……</p>
         ) : error ? (
-          <p
-            role="alert"
-            className="mt-6 rounded-xl bg-red-50 p-4 text-red-700"
-          >
+          <p role="alert" className="mt-6 rounded-xl bg-red-50 p-4 text-red-700">
             {error}
           </p>
         ) : products.length === 0 ? (
@@ -154,26 +136,18 @@ function Products() {
         ) : (
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product, index) => (
-  <article
-    key={product.product_id}
-    className="min-h-[600px] rounded-2xl border border-stone-200 bg-white p-6"
-  >
-    <p className="mb-2 text-sm text-stone-500">
-      商品序號：{index + 1}
-    </p>
+              <article
+                key={product.product_id}
+                className="min-h-[600px] rounded-2xl border border-stone-200 bg-white p-6"
+              >
+                <p className="mb-2 text-sm text-stone-500">
+                  商品序號：{index + 1}
+                </p>
+
                 <div className="flex h-96 items-center justify-center overflow-hidden rounded-xl bg-amber-50 text-5xl">
                   {product.image_url ? (
                     <img
-                      src={
-                        product.image_url.startsWith('http://') ||
-                        product.image_url.startsWith('https://')
-                          ? product.image_url
-                          : `http://localhost:3000${
-                              product.image_url.startsWith('/')
-                                ? ''
-                                : '/'
-                            }${product.image_url}`
-                      }
+                      src={getImageUrl(product.image_url)}
                       alt={product.product_name}
                       className="h-full w-full object-contain"
                     />
