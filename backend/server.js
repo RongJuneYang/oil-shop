@@ -20,9 +20,10 @@ app.use(
 const allowedOrigins = [
   'http://localhost:5173',
   'https://rongjuneyang.github.io',
+  'https://oil-shop-sand.vercel.app',
 ];
 
-// CORS 設定：允許本機及 GitHub Pages 呼叫 API
+// CORS 設定：允許本機、GitHub Pages 及 Vercel 呼叫 API
 app.use(
   cors({
     origin: allowedOrigins,
