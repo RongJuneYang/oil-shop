@@ -367,8 +367,8 @@ function AdminOrders() {
                           NT$ {
                             Number(
                               item.subtotal ??
-                              Number(item.price || 0) *
-                                Number(item.quantity || 0)
+                              Number(item.unit_price ?? item.price ?? 0) *
+                                Number(item.quantity ?? 0)
                             ).toLocaleString('zh-TW')
                           }
                         </span>
